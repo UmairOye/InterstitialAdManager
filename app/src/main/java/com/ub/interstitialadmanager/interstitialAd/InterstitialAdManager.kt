@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.provider.ContactsContract
 import android.util.Log
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -15,19 +16,23 @@ import com.ub.interstitialadmanager.R
 import com.ub.interstitialadmanager.appDialog.AdLoadingDialog
 import com.ub.interstitialadmanager.interstitialAd.InterstitialHelper.isAdLoaded
 import com.ub.interstitialadmanager.interstitialAd.InterstitialHelper.lastAdTime
+import com.ub.interstitialadmanager.interstitialAd.InterstitialHelper.mInterstitialAd
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class InterstitialAdManager {
+
+    /*
+    create by umair bashir -> 04/01/2025
+     */
+
     private val adRequest = AdRequest.Builder().build()
-    private var mInterstitialAd: InterstitialAd? = null
     private val TAG = "AdmobAd"
     private val adLoadingDialog = AdLoadingDialog()
 
-
     //load ad
     fun loadInterstitialAd(context: Context) {
-        if(isAdLoaded.not() && mInterstitialAd==null && isNetworkAvailable(context)){
+        if(isAdLoaded.not() && InterstitialHelper.mInterstitialAd==null && isNetworkAvailable(context)){
             InterstitialAd.load(context,context.getString(R.string.interstitial_ad_it), adRequest, object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.d(TAG, "InterstitialAd failed to load with error: ${adError.message}")
